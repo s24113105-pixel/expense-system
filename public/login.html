@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>會員登入</title>
+
+<style>
+body{
+    background:#ffeaf4;
+    font-family:"Microsoft JhengHei";
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.card{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    width:350px;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+h1{
+    text-align:center;
+    color:#ff5c9f;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    margin-bottom:15px;
+    border:2px solid #ffd0e5;
+    border-radius:10px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.login-btn{
+    background:#ff5c9f;
+    color:white;
+}
+
+.register-btn{
+    background:#ffd0e5;
+    margin-top:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>會員登入</h1>
+
+<input
+    type="text"
+    id="username"
+    placeholder="請輸入帳號"
+>
+
+<input
+    type="password"
+    id="password"
+    placeholder="請輸入密碼"
+>
+
+<button
+    class="login-btn"
+    onclick="login()"
+>
+登入
+</button>
+
+<button
+    class="register-btn"
+    onclick="location.href='register.html'"
+>
+註冊新帳號
+</button>
+
+</div>
+
+<script>
+
+async function login() {
+
+    const username =
+        document.getElementById("username").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    const res = await fetch("/api/login", {
+
+        method: "POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body: JSON.stringify({
+            username,
+            password
+        })
+
+    });
+
+    const data = await res.json();
+
+    if(data.success){
+
+        location.href="app.html";
+
+    }else{
+
+        alert(data.msg);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

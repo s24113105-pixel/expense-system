@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>會員註冊</title>
+
+<style>
+body{
+    background:#ffeaf4;
+    font-family:"Microsoft JhengHei";
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.card{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    width:350px;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+h1{
+    text-align:center;
+    color:#ff5c9f;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    margin-bottom:15px;
+    border:2px solid #ffd0e5;
+    border-radius:10px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.register-btn{
+    background:#ff5c9f;
+    color:white;
+}
+
+.back-btn{
+    background:#ffd0e5;
+    margin-top:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>會員註冊</h1>
+
+<input
+type="text"
+id="username"
+placeholder="請輸入帳號"
+
+>
+
+<input
+type="password"
+id="password"
+placeholder="請輸入密碼（至少6碼）"
+
+>
+
+<button
+class="register-btn"
+onclick="register()"
+
+>
+
+註冊 </button>
+
+<button
+class="back-btn"
+onclick="location.href='login.html'"
+
+>
+
+返回登入 </button>
+
+</div>
+
+<script>
+
+async function register() {
+
+    const username =
+        document.getElementById("username").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    if(password.length < 6){
+
+        alert("密碼至少6個字");
+
+        return;
+
+    }
+
+    const res = await fetch("/api/register", {
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            username,
+            password
+        })
+
+    });
+
+    const data = await res.json();
+
+    if(data.success){
+
+        alert("註冊成功！請登入");
+
+        location.href="/login.html";
+
+    }else{
+
+        alert(data.msg);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
