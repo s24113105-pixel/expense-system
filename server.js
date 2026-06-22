@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
@@ -47,6 +46,11 @@ function auth(req, res, next) {
     next();
 
 }
+
+// 首頁自動跳登入頁
+app.get("/", (req, res) => {
+    res.redirect("/login.html");
+});
 
 // 測試
 app.get("/test", (req, res) => {
@@ -178,9 +182,13 @@ app.post("/api/accounts", auth, async (req, res) => {
         const account = await Account.create({
 
             userId: req.session.userId,
+
             type: req.body.type,
+
             amount: req.body.amount,
+
             category: req.body.category,
+
             note: req.body.note
 
         });
@@ -236,6 +244,7 @@ app.delete("/api/accounts/:id", auth, async (req, res) => {
         await Account.deleteOne({
 
             _id: req.params.id,
+
             userId: req.session.userId
 
         });
@@ -261,4 +270,3 @@ app.listen(3000, () => {
     console.log("Server Running");
 
 });
-
